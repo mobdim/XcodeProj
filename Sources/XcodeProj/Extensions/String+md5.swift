@@ -31,12 +31,24 @@ extension String {
             return self
         }
         #if canImport(CryptoKit)
+        
+        #if os(macOS)
         if #available(OSX 10.15, *) {
             return Insecure.MD5.hash(data: data)
                 .withUnsafeBytes { Array($0) }.hexString
         } else {
             return data.slowMD5
         }
+        #endif
+        #if os(iOS)
+        if #available(iOS 13.0, *) {
+            return Insecure.MD5.hash(data: data)
+                .withUnsafeBytes { Array($0) }.hexString
+        } else {
+            return data.slowMD5
+        }
+        #endif
+        
         #else
         return data.slowMD5
         #endif

@@ -4,7 +4,7 @@ import PathKit
 
 // MARK: - Path extras.
 
-#if os(macOS)
+#if os(macOS) || os(iOS)
 let systemGlob = Darwin.glob
 #else
 let systemGlob = Glibc.glob
@@ -34,7 +34,7 @@ extension Path {
 
         let flags = GLOB_TILDE | GLOB_BRACE | GLOB_MARK
         if systemGlob(cPattern, flags, nil, &gt) == 0 {
-            #if os(macOS)
+            #if os(macOS) || os(iOS)
             let matchc = gt.gl_matchc
             #else
             let matchc = gt.gl_pathc
